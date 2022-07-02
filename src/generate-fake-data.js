@@ -21,10 +21,11 @@ const _awsConfig = Object.assign({}, _awsRequiredConfigs, _awsEndpointConfigs);
 const s3 = new AWS.S3(_awsConfig);
 
 const MINUTES_IN_A_YEAR = 525600
+const TOTAL_FAKE_ACCOUNTS = 3;
+const PROBE_COUNT_PER_ACCOUNT = 2;
+const SENSOR_COUNT_PER_ACCOUNT = 2;
+const TOTAL_FAKE_SENSOR_RESULTS = 100;
 
-let _probeCount = 1;
-let _sensorCount = 1;
-let _totalFakeResultCount = MINUTES_IN_A_YEAR * _probeCount;
 const _usersS3Bucket = "iphb-users";
 const _accountsS3Bucket = "iphb-accounts";
 
@@ -37,7 +38,7 @@ function _stringify(data) {
 }
 
 // iphb-users/234-234-234-23-423/asdfasdfasdfasdf.json
-let _accountsCount = 2;
+let _accountsCount = TOTAL_FAKE_ACCOUNTS;
 const email = "benjamin.hudgens@gmail.com"
 const accounts = [];
 
@@ -47,12 +48,12 @@ while (_accountsCount--) {
 
 const _user = { accounts, email };
 const _userEmailBase64 = Buffer.from(_user.email).toString('base64');
+const _userId = uuid();
 
-const _usersPath = `${_usersS3Bucket}/${_userEmailBase64}.json`
+const _usersPath = `${_usersS3Bucket}/${_userEmailBase64}---${_userId}.json`
 console.log(`Write: ${_usersPath}`, _user);
 
 let _fakeSensorData;
-
 accounts.forEach(accountId => {
   const _lowestFakePingTime = 25;
   const _highestFakePingTime = 225;
@@ -60,10 +61,12 @@ accounts.forEach(accountId => {
   const _probes = [];
   const _sensors = [];
 
+  let _probeCount = PROBE_COUNT_PER_ACCOUNT;
   while (_probeCount--) {
     _probes[_probeCount] = uuid();
   }
 
+  let _sensorCount = SENSOR_COUNT_PER_ACCOUNT;
   while (_sensorCount--) {
     _sensors[_sensorCount] = uuid();
   }
@@ -75,7 +78,7 @@ accounts.forEach(accountId => {
   _probes.forEach(probeId => {
     _sensors.forEach(sensorId => {
       _fakeSensorData = { probeId, sensorId };
-      let _total = _totalFakeResultCount;
+      let _total = TOTAL_FAKE_SENSOR_RESULTS;
       while (_total--) {
         const _min = _currentDateTime + _currentEpochFloor;
         const _max = _min + 5;
@@ -87,9 +90,15 @@ accounts.forEach(accountId => {
     });
   });
 
+  /*
+   * ------------------------------------------------------------
+   *  Sensor Data
+   * ------------------------------------------------------------
+   */
+
   const _sensorData = {};
   _sensors.forEach(sensorId => {
-    const _randomProbeIndex = randomIntFromInterval(0, _probes.length);
+    const _randomProbeIndex = randomIntFromInterval(0, _probes.length - 1);
     const _probe = _probes[_randomProbeIndex];
     _sensorData[_probe] = _sensorData[_probe] || [];
     _sensorData[_probe].push(sensorId);
@@ -97,10 +106,28 @@ accounts.forEach(accountId => {
 
   const _accountSensorsPath = `${_accountsS3Bucket}/${accountId}/sensors.json`
   console.log(`Write: ${_accountSensorsPath}`, _sensorData);
+
+  /*
+   * ------------------------------------------------------------
+   *  Users to an account
+   * ------------------------------------------------------------
+   */
+
+  const _permissions = {
+    ADMIN: 1,
+    USER: 2
+  };
+
+  const _users = {};
+  const permissions = _permissions.ADMIN | _permissions.USER;
+  _users[_userId] = { permissions };
+  const _accountUsersPath = `${_accountsS3Bucket}/${accountId}/user---${_userId}.json`
+  console.log(`Write: ${_accountUsersPath}`, _users[_userId]);
+
+  // console.log('start');
+  // console.log(_stringify(_fakeSensorData));
 });
 
 // iphb - accounts / 234 - 234 - 234 - 23 - 4234 / probes.json
 // iphb - accounts / 234 - 234 - 234 - 23 - 4234 / sensors.json
-
-console.log(_stringify(_fakeSensorData));
 

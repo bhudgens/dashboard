@@ -1,0 +1,32 @@
+.home {
+  background-color: blue;
+}
+
+.block {
+    text-align: center;
+    vertical-align: middle;
+    display: table;
+}
+.circle {
+    background: grey;
+    border-radius: 200px;
+    display: table;
+    color: white;
+    height: 50px;
+    font-weight: bold;
+    width: 50px;
+    margin: 20px auto;
+}
+.circle p {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.label {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.labelRow {
+    display: table-row;
+}

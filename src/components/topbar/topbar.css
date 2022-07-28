@@ -1,8 +1,8 @@
-/* .topbar { */
-  /* width: 100%; */
-  /* height: 50px; */
-  /* background-color: white; */
-/* } */
+.topbar {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+}
 
 /* .topbarWrapper { */
   /* height: 100%; */

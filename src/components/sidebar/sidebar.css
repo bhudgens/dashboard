@@ -1,6 +1,10 @@
-.sidebar{
-  height: calc(100vh - 56px);
-  width: 280px;
-  position: sticky;
-  top: 56;
+.sidebar {
+    height: calc(100vh - 56px);
+    /* width: 280px; */
+    top: 56px;
+    background-color: blue;
+}
+
+* {
+    box-sizing: border-box;
 }

@@ -1,5 +1,5 @@
 .home {
-  background-color: blue;
+    background-color: blue;
 }
 
 .block {
@@ -29,4 +29,16 @@
 
 .labelRow {
     display: table-row;
+}
+
+.customer-search {
+    overflow: auto;
+    height: calc(100vh - 56px)
+}
+
+.search-form {
+    position: sticky;
+    top: 0;
+    z-index:1020;
+    background-color: white;
 }

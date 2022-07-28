@@ -1,3 +1,15 @@
-.content {
-  display: flex;
+* {
+    box-sizing: border-box;
 }
+
+.sidebar {
+    overflow: hidden;
+}
+
+.main {
+    height: calc(100vh - 56px);
+    overflow: hidden;
+    top: 56px;
+    width: 100%;
+}
+

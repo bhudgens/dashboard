@@ -1,22 +1,29 @@
 // vim: ft=javascriptreact
 
+/************************************************************
+ * React
+ ***********************************************************/
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+
+/************************************************************
+ * CSS
+ ***********************************************************/
+import './app.css'
+
+/************************************************************
+ * UI
+ ***********************************************************/
+import {Container} from 'react-bootstrap'
 
 /************************************************************
  * Page Imports
  ***********************************************************/
 import Topbar from './components/topbar/Topbar'
 import Sidebar from './components/sidebar/Sidebar'
-import Home from './pages/home/Home'
 import Customers from './pages/customers/Customers'
-import CustomerView from './pages/customer-view/CustomerView'
-
-/************************************************************
- * CSS
- ***********************************************************/
-import './app.css'
-import { Route, Routes } from 'react-router-dom'
-import {Container} from 'react-bootstrap'
+import Settings from './pages/settings/Settings'
+import Appointments from './components/appointments/Appointments'
 
 const App = () => (
     <div>
@@ -29,11 +36,11 @@ const App = () => (
             </div>
             <div className="main col p-0">
                 <Routes>
-                    <Route index element={<CustomerView />} />
+                    <Route index element={<Appointments />} />
                     <Route path="/customers" element={<Customers />} />
-                    <Route path="/home" element={<Home />} />
                     <Route path="/sidebar" element={<Sidebar />} />
-                    <Route path="/customer-view" element={<CustomerView />} />
+                    <Route path="/appointments" element={<Appointments />} />
+                    <Route path="/settings" element={<Settings />} />
                 </Routes>
             </div>
         </Container>

@@ -6,13 +6,12 @@ import {
   ListGroup,
   InputGroup,
   Button,
-  Row,
 } from 'react-bootstrap'
 import { BsSearch } from 'react-icons/bs'
 import './customers.css'
 import { AsyncFzf } from 'fzf'
 import { faker } from '@faker-js/faker'
-import CustomerView from '../customer-view/CustomerView'
+import CustomerView from '../../components/customer-view/CustomerView'
 
 function _getInitialsFromName(name) {
   const _firstLetter = name.slice(0, 1).toUpperCase()

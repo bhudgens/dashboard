@@ -1,26 +1,26 @@
 // vim: ft=javascriptreact
 import React from 'react'
 import './sidebar.css'
-import { BsHouse, BsPersonCircle } from 'react-icons/bs'
+import { BsCalendar, BsGear, BsPersonCircle } from 'react-icons/bs'
 import { Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 export default function Sidebar() {
     const links = [
         {
-            icon: <BsHouse />,
-            name: 'Home',
-            url: '/home',
-        },
-        {
             icon: <BsPersonCircle />,
             name: 'Customers',
             url: '/customers',
         },
         {
-            icon: <BsPersonCircle />,
-            name: 'Customer View',
-            url: '/customer-view',
+            icon: <BsCalendar />,
+            name: 'Appointments',
+            url: '/appointments',
+        },
+        {
+            icon: <BsGear />,
+            name: 'Settings',
+            url: '/settings',
         },
     ]
     return (
